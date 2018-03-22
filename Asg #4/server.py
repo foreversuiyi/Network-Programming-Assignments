@@ -1,5 +1,6 @@
 import nltk
 import pandas as pd
+import numpy as np
 from flask import jsonify
 from flask import Flask
 from flask import current_app
@@ -72,8 +73,12 @@ def movie_return_type(data_frame, method):
                        "Year": int(data_frame["Year"]),
                        "comments": data_frame["comments"],
                        "id": int(data_frame["Rank"]) - 1}
+        if np.isnan(data_frame["Metascore"]):
+            return_type["Metascore"] = float(0.0)
     else:
         return_type = {}
+    if np.isnan(data_frame["Revenue (Millions)"]):
+        return_type["Revenue (Millions)"] = 0.0
     return return_type
 
 
